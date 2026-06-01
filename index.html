@@ -131,7 +131,6 @@ input,textarea,button{font-family:var(--f)}
 .ppex:last-child{border-bottom:none;padding-bottom:0}
 .ppex-name{font-size:12px;color:var(--tx2);flex:1}
 .ppex-target{font-size:10px;color:var(--tx3);font-family:var(--fm)}
-.ppex-name{font-size:13px;color:var(--tx2);margin-bottom:2px}
 .ppex-btn{width:22px;height:22px;border-radius:50%;border:0.5px solid var(--bd);background:none;color:var(--tx3);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0}
 .ppex-btn:hover{border-color:var(--g);color:var(--g)}
 
@@ -230,7 +229,7 @@ input,textarea,button{font-family:var(--f)}
         <div class="hdayl" id="cur-date">—</div>
         <div class="hdayl" id="next-info" style="display:none;color:var(--g);margin-top:3px"></div>
       </div>
-      <div style="text-align:right"><div id="day-badge" class="hbadge rest">—</div><div id="phase-pill" style="margin-top:5px;font-size:10px;color:var(--g);font-family:var(--fm);text-align:right"></div></div>
+      <div style="text-align:right"><div id="day-badge" class="hbadge rest">—</div><div id="phase-pill" style="margin-top:5px;font-size:10px;color:var(--g);font-family:var(--fm)"></div></div>
     </div>
     <div class="hstats">
       <div class="hst"><span class="hstn" id="stat-streak">0</span><span class="hstl">Streak</span></div>
@@ -286,7 +285,7 @@ input,textarea,button{font-family:var(--f)}
   <div class="sec">
     <div class="sh">Goals</div>
     <div class="goalbar">
-      <div class="goalrow"><span class="goalname">體重 (維持 46kg)</span><span class="goalval" id="g-wt">—</span></div>
+      <div class="goalrow"><span class="goalname">體重 (目標維持 46kg)</span><span class="goalval" id="g-wt">—</span></div>
       <div class="gbar"><div class="gbarfill" id="g-wbar" style="width:0%;background:var(--push)"></div></div>
     </div>
     <div class="goalbar">
@@ -320,10 +319,10 @@ input,textarea,button{font-family:var(--f)}
 <!-- ═══ PLAN ═══ -->
 <div class="pg" id="pg-plan">
   <div class="sec">
-    <div class="sh">一星期3日循環 — 新手版</div>
+    <div class="sh">Your rotation — every other day</div>
     <div class="rot-row" id="rot-row"></div>
     <div class="tip" style="margin-bottom:0">
-      <strong>一星期3日，A→B→C循環。</strong> 例如：星期一(下肢)→ 星期三(上肢)→ 星期五(核心)→ 下星期一(下肢)…每組肌肉有充足休息。<br><span style="color:var(--tx2)">新手頭兩週：感覺太輕鬆係正常，先學好動作；做完第二日覺得微微痠才算剛好。唔需要做到力竭。</span>
+      <strong>係唔係適合你？ Yes.</strong> 三日循環 (A→B→C) 隔日做係你目標嘅最佳方案。Push訓練胸+膊，Pull訓練背+令膊頭睇落更闊，Core+Legs訓練腹肌+跑步爆發力。每組肌肉有 <strong>48–72小時</strong> 休息，唔會過度訓練。
     </div>
   </div>
 
@@ -342,17 +341,11 @@ input,textarea,button{font-family:var(--f)}
 
   <div class="sec">
     <div class="sh">飲食 + 建議</div>
-    <div class="tip" style="border-left-color:var(--g)"><strong>📈 漸進計劃（重要！）</strong><br>
-    <span style="color:var(--tx2)">
-    Week 1–2：照數字做，感受動作，唔需要做到盡。肌肉痠痛係正常，但唔應該痛到影響日常生活。<br>
-    Week 3–4：每個動作加1組（變 3 sets）。<br>
-    Week 5–6：每個動作加 2–3 reps。<br>
-    Month 2+：再加1組（變4 sets），或換用更重嘅啞鈴。
-    </span></div>
-    <div class="tip"><strong>156cm / 46kg 已經係健康體重。</strong> 目標係增加肌肉線條同跑步耐力，唔係減重。唔好節食——唔夠能量反而令訓練效果差。</div>
-    <div class="tip"><strong>蛋白質:</strong> 每日 70–80g 足夠。雞蛋（每日2–3隻）、豆腐、雞胸、魚。唔需要protein shake，正常飲食就夠。</div>
-    <div class="tip"><strong>跑步建議:</strong> 訓練日可以係 warm-up 5分鐘慢跑 + workout；休息日可以輕鬆跑15–20分鐘。跑步姿勢重點：臀部發力推前、核心收緊、眼望前方20米。</div>
-    <div class="tip" style="margin-bottom:0"><strong>啞鈴重量:</strong> 2kg用於上肢孤立動作（Lateral Raise, Curl, Kickback），5kg用於下肢複合動作（Squat, Row, RDL）。等動作做到輕鬆先考慮加重量。</div>
+    <div class="tip" style="border-left-color:var(--g)"><strong>📈 漸進計劃</strong><br><span style="color:var(--tx2)">Week 1–2：照數字做，感受動作。Week 3–4：加1組（3 sets）。Week 5–6：每動作加2–3 reps。Month 2+：加回4 sets 或換更重啞鈴。</span></div>
+    <div class="tip"><strong>156cm / 46kg 已經係健康體重。</strong> 目標係增加肌肉線條同跑步耐力，唔係減重。唔好節食。</div>
+    <div class="tip"><strong>蛋白質:</strong> 每日 70–80g。雞蛋、豆腐、雞胸、魚。唔需要protein shake。</div>
+    <div class="tip"><strong>跑步建議:</strong> 訓練日可以warm-up 5分鐘慢跑；休息日輕鬆跑15–20分鐘。跑步姿勢：臀部發力推前、核心收緊、眼望前方20米。</div>
+    <div class="tip" style="margin-bottom:0"><strong>啞鈴重量:</strong> 2kg用上肢孤立動作，5kg用下肢複合動作。等動作做到輕鬆先考慮加重量。</div>
   </div>
 </div>
 
@@ -392,7 +385,6 @@ const EXERCISES = {
     prog:[{s:2,r:5,u:'each'},{s:3,r:5,u:'each'},{s:3,r:8,u:'each'},{s:4,r:10,u:'each'}],
     steps:['仰臥，手臂垂直向上，膝蓋彎曲90度提起','緩緩將右手向頭頂延伸，同時左腿向前伸直','呼氣，核心收緊，下背貼地（非常重要）','回到起始位置，換另一邊'],
     mistake:'下背一定要全程緊貼地面！一旦離地就停止。',type:'push'},
-
   b1:{name:'DB Bent-over Row',muscles:['Upper Back','Rhomboids'],secondary:['Biceps','Rear Delts'],
     prog:[{s:2,r:8,u:'reps'},{s:3,r:8,u:'reps'},{s:3,r:10,u:'reps'},{s:4,r:12,u:'reps'}],
     steps:['腰前傾約45度，背部打直，5kg啞鈴垂吊','將啞鈴向肚臍方向拉，手肘貼近身體','頂部擠壓背部1秒，感受肩胛骨收攏','直接改善跑步時肩膊前衝嘅問題'],
@@ -417,7 +409,6 @@ const EXERCISES = {
     prog:[{s:2,r:8,u:'reps'},{s:3,r:8,u:'reps'},{s:3,r:10,u:'reps'},{s:3,r:12,u:'reps',note:'→ 考慮換地板掌上壓'}],
     steps:['面向牆壁站立，距離約一臂，手掌撐牆','身體成一直線，緩緩彎曲手肘讓胸口靠近牆壁','胸口幾乎碰牆後即刻推回','比地板掌上壓更易控制，建立基礎力量'],
     mistake:'唔好讓臀部突出或腰部下塌。身體要保持一直線。',type:'pull'},
-
   c1:{name:'Plank',muscles:['Deep Core','Transverse Abs'],secondary:['Shoulders','Glutes'],
     prog:[{s:3,sec:20,u:'sec'},{s:3,sec:30,u:'sec'},{s:3,sec:40,u:'sec'},{s:4,sec:50,u:'sec'}],
     steps:['前臂撐地，手肘正下於肩膊，腳趾撐地','收緊臀部 + 腹部（肚臍想象向脊椎靠攏）','頭頸脊背成一直線，保持正常呼吸','唔好閉氣！呼吸係保持長時間嘅關鍵'],
@@ -458,20 +449,19 @@ function sv(k,v){try{localStorage.setItem('gv2_'+k,JSON.stringify(v));}catch(e){
 const _today0 = new Date(); _today0.setHours(0,0,0,0);
 let startDate = ld('start') ? new Date(ld('start')) : _today0;
 
-// ── PHASE ──
+// ── PHASE (Elvis: already 9 weeks in, phases are longer) ──
 function getWeekNum(){return Math.floor(Math.round((TODAY()-startDate)/(864e5))/7)+1;}
 function getPhase(){const w=getWeekNum();return w<=2?1:w<=4?2:w<=6?3:4;}
-function phaseLabel(){const p=getPhase();return p===1?'Week 1–2 · 入門':p===2?'Week 3–4 · 加量':p===3?'Week 5–6 · 加 Reps':'Month 2+ · 全力';}
+function phaseLabel(){const p=getPhase(),w=getWeekNum();
+  return p===1?'Week '+w+' · 入門':p===2?'Week '+w+' · 加量':p===3?'Week '+w+' · 加 Reps':'Month 2+ · 全力';}
 function getTarget(ex){
-  const p=getPhase()-1;
-  const pg=ex.prog?ex.prog[Math.min(p,ex.prog.length-1)]:null;
+  const p=getPhase()-1,pg=ex.prog?ex.prog[Math.min(p,ex.prog.length-1)]:null;
   if(!pg)return ex.target||'—';
   if(pg.sec!==undefined)return pg.s+' × '+pg.sec+' '+pg.u+(pg.note?' '+pg.note:'');
   return pg.s+' × '+pg.r+' '+pg.u+(pg.note?' '+pg.note:'');
 }
 function getTimerSec(ex){
-  const p=getPhase()-1;
-  const pg=ex.prog?ex.prog[Math.min(p,ex.prog.length-1)]:null;
+  const p=getPhase()-1,pg=ex.prog?ex.prog[Math.min(p,ex.prog.length-1)]:null;
   return pg&&pg.sec?pg.sec:(ex.timer||45);
 }
 let sessions  = ld('sess') || {};
@@ -484,8 +474,8 @@ function TODAY(){const d=new Date();d.setHours(0,0,0,0);return d;}
 function isWD(d){
   const diff=Math.round((d-startDate)/(864e5));
   if(diff<0)return false;
-  const dow=diff%7; // 0=Day1, cycle resets every 7 days
-  return dow===0||dow===2||dow===4; // Mon/Wed/Fri pattern (3x/week)
+  const dow=diff%7;
+  return dow===0||dow===2||dow===4;
 }
 function sessNum(d){let c=0,x=new Date(startDate);while(x<=d){if(isWD(x))c++;x.setDate(x.getDate()+1);}return c;}
 function todayType(){const n=sessNum(TODAY());const t=['A','B','C'];return t[(n-1)%3]||'A';}
@@ -513,7 +503,7 @@ function renderToday(){
     while(!isWD(nx))nx.setDate(nx.getDate()+1);
     const nxType=(['A','B','C'])[(sessNum(nx)-1)%3];
     const nxLabel={'A':'Push','B':'Pull','C':'Core+Legs'}[nxType];
-    document.getElementById('next-info').textContent='💪 下次: '+nx.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})+' · '+nxLabel+' Day';
+    document.getElementById('next-info').textContent='下次: '+nx.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})+' · '+nxLabel+' Day';
     document.getElementById('next-info').style.display='block';
   } else {
     document.getElementById('next-info').style.display='none';
@@ -557,7 +547,7 @@ function renderToday(){
     wrap.innerHTML=`<div class="exrow${isDone?' done':isSkipped?' skipped':''}" data-id="${eid}">
       <div class="excheck">${isDone?'✓':''}</div>
       <div class="exinfo"><div class="exname">${ex.name}</div><div class="extarget">${getTarget(ex)}</div></div>
-      ${hasTimer&&!isSkipped?`<button class="ex-guide-btn" style="background:rgba(200,240,96,0.10);border-color:rgba(200,240,96,0.35);color:var(--g)" data-eid="${eid}" title="Timer" data-timer>⏱</button>`:''}
+      ${(hasTimer&&!isSkipped)?('<button class="ex-guide-btn" style="background:rgba(200,240,96,0.10);border-color:rgba(200,240,96,0.35);color:var(--g)" data-eid="'+eid+'" title="Timer" data-timer>⏱</button>'):''}
       <button class="skip-btn${isSkipped?' active':''}" data-eid="${eid}" title="Skip (injured/unable)" data-skip>傷</button>
       <button class="ex-guide-btn" data-eid="${eid}" title="How to">?</button>
     </div>`;
@@ -568,20 +558,36 @@ function renderToday(){
       if(idx>-1)sess.exDone.splice(idx,1);else sess.exDone.push(eid);
       sv('sess',sessions);renderToday();
     });
+    wrap.querySelectorAll('.skip-btn').forEach(btn=>{
+      function doSkip(e){
+        e.stopPropagation();e.preventDefault();
+        if(!sess.exSkipped)sess.exSkipped=[];
+        const si=sess.exSkipped.indexOf(eid);
+        if(si>-1){sess.exSkipped.splice(si,1);}else{
+          sess.exSkipped.push(eid);
+          const di=sess.exDone.indexOf(eid);if(di>-1)sess.exDone.splice(di,1);
+        }
+        sv('sess',sessions);renderToday();
+      }
+      btn.addEventListener('click',doSkip);
+      btn.addEventListener('touchend',doSkip,{passive:false});
+    });
     wrap.querySelectorAll('.ex-guide-btn').forEach(btn=>{
       btn.onclick=(e)=>{e.stopPropagation();
-        if(btn.dataset.timer!==undefined)openTimer(ex.name,ex.prog?ex.prog[Math.min(getPhase()-1,ex.prog.length-1)].s||3:3,getTimerSec(ex));
+        if(btn.dataset.timer!==undefined)openTimer(ex.name,ex.prog?ex.prog[Math.min(getPhase()-1,ex.prog.length-1)].s||4:4,getTimerSec(ex));
         else openModal(eid);};
     });
     list.appendChild(wrap);
   });
 
+  // only count exercises belonging to today's workout type
+  const doneCount=(sess.exDone||[]).filter(id=>CW.exercises.includes(id)&&!(sess.exSkipped||[]).includes(id)).length;
   const skippedCount=(sess.exSkipped||[]).filter(id=>CW.exercises.includes(id)).length;
-  const eligible=CW.exercises.length; // skipped still counts against you
-  const pct=eligible>0?Math.round(sess.exDone.length/eligible*100):0;
+  const eligible=CW.exercises.length; // skipped still counts against total
+  const pct=eligible>0?Math.round(doneCount/eligible*100):0;
   document.getElementById('ex-pbar').style.width=pct+'%';
   const skipLabel=skippedCount>0?' ('+skippedCount+' skipped)':'';
-  document.getElementById('ex-count').textContent=sess.exDone.length+' / '+eligible+' exercises'+skipLabel;
+  document.getElementById('ex-count').textContent=doneCount+' / '+eligible+' exercises'+skipLabel;
 
   const btn=document.getElementById('done-btn');
   if(sess.done){btn.textContent='✓ Session completed!';btn.className='cbtn cbtn-outline';}
@@ -692,9 +698,8 @@ function renderProgress(){
   const latW=weights.length?weights[weights.length-1].val:null;
   const stW=weights.length?weights[0].val:null;
   if(latW&&stW){
-    const target=48;
-    const pct=Math.max(0,Math.min(100,Math.round(Math.abs(latW-46)<Math.abs(stW-46)?80:50)));
-    document.getElementById('g-wt').textContent=latW+'kg (目標維持 46kg)';
+    const pct=Math.max(0,Math.min(100,Math.round((stW-latW)/(stW-60)*100)));
+    document.getElementById('g-wt').textContent=latW+'kg (目標 46kg)';
     document.getElementById('g-wbar').style.width=pct+'%';
   } else {
     document.getElementById('g-wt').textContent='Log weight to track';
@@ -753,10 +758,10 @@ function renderPlan(){
       const r=document.createElement('div');r.className='ppex';
       const curP=getPhase()-1;
       const pgRows=(ex.prog||[]).map((p,i)=>{
-        const lbl=['W1-2','W3-4','W5-6','M2+'][i];
+        const lbl=['W1-4','W5-8','W9-16','M4+'][i];
         const val=p.sec!==undefined?p.s+'×'+p.sec+'s':p.s+'×'+p.r+' '+p.u;
         const isCur=i===Math.min(curP,ex.prog.length-1);
-        return `<span style="font-size:9px;padding:2px 5px;border-radius:10px;font-family:var(--fm);${isCur?'background:var(--g);color:#000;font-weight:700':'color:var(--tx3)'}">${lbl}: ${val}</span>`;
+        return '<span style="font-size:9px;padding:2px 5px;border-radius:10px;font-family:var(--fm);'+(isCur?'background:var(--g);color:#000;font-weight:700':'color:var(--tx3)')+'">'+(lbl+': '+val)+'</span>';
       }).join('');
       r.innerHTML=`<div style="flex:1"><div class="ppex-name">${ex.name}</div><div style="display:flex;flex-wrap:wrap;gap:3px;margin-top:4px">${pgRows}</div></div><button class="ppex-btn" data-eid="${eid}">?</button>`;
       r.querySelector('.ppex-btn').onclick=e=>{e.stopPropagation();openModal(eid);};
