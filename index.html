@@ -193,6 +193,15 @@ input,textarea,button{font-family:var(--f)}
 .tpreset{padding:7px 14px;border-radius:20px;border:0.5px solid var(--bd2);background:none;color:var(--tx3);font-size:12px;cursor:pointer;font-family:var(--fm);transition:all .15s}
 .tpreset.active{background:var(--g);color:#000;border-color:var(--g);font-weight:700}
 .tpreset:hover:not(.active){border-color:var(--tx3)}
+
+.dlog-list{margin-top:2px}
+.dlog-row{padding:9px 0;border-bottom:0.5px solid var(--bd);display:flex;flex-direction:column;gap:3px}
+.dlog-row:last-child{border-bottom:none}
+.dlog-date{font-size:10px;color:var(--tx3);font-family:var(--fm)}
+.dlog-txt{font-size:13px;color:var(--tx2);line-height:1.5}
+.dlog-input-row{display:flex;gap:8px;margin-top:10px}
+.dlog-ta{flex:1;padding:9px 12px;background:var(--bg3);border:0.5px solid var(--bd2);border-radius:var(--r);color:var(--tx);font-size:13px;outline:none;font-family:var(--f);resize:none;height:42px;line-height:1.4}
+.dlog-ta:focus{border-color:var(--g)}
 </style>
 </head>
 <body>
@@ -253,6 +262,14 @@ input,textarea,button{font-family:var(--f)}
     <div class="winp-row">
       <input class="winp" id="w-inp" type="number" step="0.1" placeholder="Today's weight (kg)" inputmode="decimal">
       <button class="wbtn" onclick="logWeight()">Log</button>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sh">Daily notes</div>
+    <div class="dlog-list" id="dlog-list"></div>
+    <div class="dlog-input-row">
+      <textarea class="dlog-ta" id="dlog-inp" placeholder="今日狀態、感受、備注..." rows="2"></textarea>
+      <button class="wbtn" onclick="saveDlog()">Save</button>
     </div>
   </div>
 </div>
@@ -451,6 +468,7 @@ function getTimerSec(ex){
   return pg&&pg.sec?pg.sec:(ex.timer||45);
 }
 let sessions  = ld('sess') || {};
+let dlogs     = ld('dlogs') || {}; // {dateStr: noteText}
 let weights   = ld('wts')  || [];
 let notes     = ld('notes')|| '';
 
@@ -626,6 +644,7 @@ function renderLog(){
     wl.appendChild(row);
   });
   drawChart();
+  renderDlog();
 }
 
 function logWeight(){
@@ -689,8 +708,8 @@ function resetAll(){
   ['sess','wts','notes','start'].forEach(k=>localStorage.removeItem('gv2_'+k));
   startDate=new Date();startDate.setHours(0,0,0,0);
   sv('start',startDate.toISOString().slice(0,10));
-  sessions={};weights=[];notes='';
-  sv('sess',sessions);sv('wts',weights);sv('notes',notes);
+  sessions={};weights=[];notes='';dlogs={};
+  sv('sess',sessions);sv('wts',weights);sv('notes',notes);sv('dlogs',dlogs);
   document.getElementById('confirm-box').classList.remove('open');
   renderToday();renderLog();renderProgress();renderPlan();
    // switch to today tab
