@@ -202,6 +202,13 @@ input,textarea,button{font-family:var(--f)}
 .dlog-input-row{display:flex;gap:8px;margin-top:10px}
 .dlog-ta{flex:1;padding:9px 12px;background:var(--bg3);border:0.5px solid var(--bd2);border-radius:var(--r);color:var(--tx);font-size:13px;outline:none;font-family:var(--f);resize:none;height:42px;line-height:1.4}
 .dlog-ta:focus{border-color:var(--g)}
+
+.exrow.skipped{border-color:var(--tx3);background:rgba(255,255,255,0.02);opacity:0.55}
+.exrow.skipped .exname{color:var(--tx3);text-decoration:line-through}
+.skip-btn{background:none;border:0.5px solid var(--bd2);color:var(--tx3);cursor:pointer;font-size:10px;
+  width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--f)}
+.skip-btn:hover{border-color:var(--tx3)}
+.skip-btn.active{border-color:#f0a060;color:#f0a060;background:rgba(240,160,96,0.10)}
 </style>
 </head>
 <body>
@@ -546,14 +553,17 @@ function renderToday(){
     const isDone=sess.exDone.includes(eid);
     const wrap=document.createElement('div');wrap.className='exwrap';
     const hasTimer=ex.prog?ex.prog[0].sec!==undefined:!!ex.timer;
-    wrap.innerHTML=`<div class="exrow${isDone?' done':''}" data-id="${eid}">
+    const isSkipped=sess.exSkipped&&sess.exSkipped.includes(eid);
+    wrap.innerHTML=`<div class="exrow${isDone?' done':isSkipped?' skipped':''}" data-id="${eid}">
       <div class="excheck">${isDone?'✓':''}</div>
       <div class="exinfo"><div class="exname">${ex.name}</div><div class="extarget">${getTarget(ex)}</div></div>
-      ${hasTimer?`<button class="ex-guide-btn" style="background:rgba(200,240,96,0.10);border-color:rgba(200,240,96,0.35);color:var(--g)" data-eid="${eid}" title="Timer" data-timer>⏱</button>`:''}
+      ${hasTimer&&!isSkipped?`<button class="ex-guide-btn" style="background:rgba(200,240,96,0.10);border-color:rgba(200,240,96,0.35);color:var(--g)" data-eid="${eid}" title="Timer" data-timer>⏱</button>`:''}
+      <button class="skip-btn${isSkipped?' active':''}" data-eid="${eid}" title="Skip (injured/unable)" data-skip>傷</button>
       <button class="ex-guide-btn" data-eid="${eid}" title="How to">?</button>
     </div>`;
     wrap.querySelector('.exrow').addEventListener('click',function(e){
-      if(e.target.closest('.ex-guide-btn'))return;
+      if(e.target.closest('.ex-guide-btn')||e.target.closest('.skip-btn'))return;
+      if(sess.exSkipped&&sess.exSkipped.includes(eid))return;
       const idx=sess.exDone.indexOf(eid);
       if(idx>-1)sess.exDone.splice(idx,1);else sess.exDone.push(eid);
       sv('sess',sessions);renderToday();
@@ -566,9 +576,12 @@ function renderToday(){
     list.appendChild(wrap);
   });
 
-  const pct=CW.exercises.length?Math.round(sess.exDone.length/CW.exercises.length*100):0;
+  const skippedCount=(sess.exSkipped||[]).filter(id=>CW.exercises.includes(id)).length;
+  const eligible=CW.exercises.length; // skipped still counts against you
+  const pct=eligible>0?Math.round(sess.exDone.length/eligible*100):0;
   document.getElementById('ex-pbar').style.width=pct+'%';
-  document.getElementById('ex-count').textContent=sess.exDone.length+' / '+CW.exercises.length+' exercises';
+  const skipLabel=skippedCount>0?' ('+skippedCount+' skipped)':'';
+  document.getElementById('ex-count').textContent=sess.exDone.length+' / '+eligible+' exercises'+skipLabel;
 
   const btn=document.getElementById('done-btn');
   if(sess.done){btn.textContent='✓ Session completed!';btn.className='cbtn cbtn-outline';}
@@ -845,6 +858,34 @@ function updateTimerUI(){
   document.getElementById('timer-ring').classList.toggle('danger',rem<=10);
   if(timerState.running)document.getElementById('timer-sublabel').textContent='';
   else if(rem===dur)document.getElementById('timer-sublabel').textContent='tap ▶ to start';
+}
+
+
+// ── DAILY LOG ──
+function saveDlog(){
+  const ta=document.getElementById('dlog-inp');
+  if(!ta)return;
+  const txt=ta.value.trim();
+  if(!txt)return;
+  const dstr=ds(TODAY());
+  dlogs[dstr]=(dlogs[dstr]?dlogs[dstr]+'\n':'')+txt;
+  sv('dlogs',dlogs);
+  ta.value='';
+  renderDlog();
+}
+function renderDlog(){
+  const list=document.getElementById('dlog-list');
+  if(!list)return;
+  const entries=Object.entries(dlogs).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,30);
+  if(!entries.length){
+    list.innerHTML='<div style="font-size:11px;color:var(--tx3);padding:8px 0;font-family:var(--fm)">No notes yet</div>';
+    return;
+  }
+  list.innerHTML=entries.map(([d,txt])=>{
+    const dateLabel=new Date(d+'T00:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+    const lines=txt.split('\n').filter(Boolean).map(l=>`<div class="dlog-txt">• ${l}</div>`).join('');
+    return`<div class="dlog-row"><div class="dlog-date">${dateLabel}</div>${lines}</div>`;
+  }).join('');
 }
 
 renderToday();renderLog();renderProgress();renderPlan();
