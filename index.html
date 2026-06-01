@@ -576,12 +576,14 @@ function renderToday(){
     list.appendChild(wrap);
   });
 
+  // only count exercises belonging to today's workout type
+  const doneCount=(sess.exDone||[]).filter(id=>CW.exercises.includes(id)&&!(sess.exSkipped||[]).includes(id)).length;
   const skippedCount=(sess.exSkipped||[]).filter(id=>CW.exercises.includes(id)).length;
-  const eligible=CW.exercises.length; // skipped still counts against you
-  const pct=eligible>0?Math.round(sess.exDone.length/eligible*100):0;
+  const total=CW.exercises.length; // skipped still counts against total
+  const pct=total>0?Math.round(doneCount/total*100):0;
   document.getElementById('ex-pbar').style.width=pct+'%';
   const skipLabel=skippedCount>0?' ('+skippedCount+' skipped)':'';
-  document.getElementById('ex-count').textContent=sess.exDone.length+' / '+eligible+' exercises'+skipLabel;
+  document.getElementById('ex-count').textContent=doneCount+' / '+total+' exercises'+skipLabel;
 
   const btn=document.getElementById('done-btn');
   if(sess.done){btn.textContent='✓ Session completed!';btn.className='cbtn cbtn-outline';}
