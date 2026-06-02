@@ -231,19 +231,21 @@ input,textarea,button{font-family:var(--f)}
       </div>
       <div style="text-align:right"><div id="day-badge" class="hbadge rest">—</div><div id="phase-pill" style="margin-top:5px;font-size:10px;color:var(--g);font-family:var(--fm)"></div></div>
     </div>
-    <div class="hstats">
+    <div class="hstats" style="grid-template-columns:repeat(4,1fr)">
       <div class="hst"><span class="hstn" id="stat-streak">0</span><span class="hstl">Streak</span></div>
       <div class="hst"><span class="hstn" id="stat-total">0</span><span class="hstl">Done</span></div>
       <div class="hst"><span class="hstn" id="stat-pct">0%</span><span class="hstl">Rate</span></div>
+      <div class="hst"><span class="hstn" id="stat-today">—</span><span class="hstl">Today</span></div>
     </div>
   </div>
 
-  <div class="sec">
-    <div class="sh">Today's workout</div>
+  <div class="sec" id="workout-sec">
+    <div class="sh" id="workout-sh">Today's workout</div>
     <div id="wtype-row" style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none"></div>
     <div id="ex-list"></div>
     <div class="pbar-wrap"><div class="pbar" id="ex-pbar" style="width:0%"></div></div>
     <div class="pbar-label" id="ex-count">0 / 0 exercises</div>
+    <div id="rest-preview" style="display:none"></div>
   </div>
 
   <button class="cbtn cbtn-green" id="done-btn" onclick="markDone()">✓ Mark session complete</button>
@@ -469,7 +471,7 @@ let dlogs     = ld('dlogs') || {}; // {dateStr: noteText}
 let weights   = ld('wts')  || [];
 let notes     = ld('notes')|| '';
 
-function ds(d){return d.toISOString().slice(0,10);}
+function ds(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");return y+"-"+m+"-"+day;}
 function TODAY(){const d=new Date();d.setHours(0,0,0,0);return d;}
 function isWD(d){
   const diff=Math.round((d-startDate)/(864e5));
@@ -497,15 +499,41 @@ function renderToday(){
 
   document.getElementById('cur-day').textContent='Day '+sn;
   document.getElementById('cur-date').textContent=T.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short',year:'numeric'});
-  // next workout info
+  // rest day vs workout day
   if(!isWD(T)){
+    // REST DAY
+    document.getElementById('workout-sh').textContent='Rest Day 💤';
+    document.getElementById('wtype-row').style.display='none';
+    document.getElementById('ex-list').innerHTML='';
+    document.getElementById('ex-pbar').style.width='0%';
+    document.getElementById('ex-count').textContent='';
+    document.getElementById('stat-today').textContent='休';
+    document.getElementById('done-btn').style.display='none';
     let nx=new Date(T);nx.setDate(nx.getDate()+1);
     while(!isWD(nx))nx.setDate(nx.getDate()+1);
     const nxType=(['A','B','C'])[(sessNum(nx)-1)%3];
-    const nxLabel={'A':'Push','B':'Pull','C':'Core+Legs'}[nxType];
-    document.getElementById('next-info').textContent='下次: '+nx.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})+' · '+nxLabel+' Day';
+    const nxLabel={'A':'下肢+臀','B':'上肢+姿勢','C':'核心+跑步'}[nxType];
+    const nxW=WORKOUTS[nxType];
+    document.getElementById('next-info').textContent='下次: '+nx.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'})+' · '+nxLabel;
     document.getElementById('next-info').style.display='block';
+    // show next session exercise preview
+    const preview=document.getElementById('rest-preview');
+    preview.style.display='block';
+    preview.innerHTML='<div style="margin-top:14px;border-top:0.5px solid var(--bd);padding-top:12px"><div style="font-size:9px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;color:var(--tx3);margin-bottom:10px;font-family:var(--fm)">下次 Session 預覽</div>'+
+      nxW.exercises.map((eid,i)=>{
+        const ex=EXERCISES[eid];
+        return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid var(--bd)">'+
+          '<span style="font-size:10px;color:var(--tx3);width:14px;font-family:var(--fm)">'+(i+1)+'</span>'+
+          '<span style="font-size:13px;color:var(--tx2);flex:1">'+ex.name+'</span>'+
+          '<span style="font-size:10px;color:var(--tx3);font-family:var(--fm)">'+getTarget(ex)+'</span>'+
+        '</div>';
+      }).join('')+'</div>';
   } else {
+    // WORKOUT DAY
+    document.getElementById('workout-sh').textContent="Today's workout";
+    document.getElementById('wtype-row').style.display='flex';
+    document.getElementById('done-btn').style.display='';
+    document.getElementById('rest-preview').style.display='none';
     document.getElementById('next-info').style.display='none';
   }
 
@@ -588,6 +616,7 @@ function renderToday(){
   document.getElementById('ex-pbar').style.width=pct+'%';
   const skipLabel=skippedCount>0?' ('+skippedCount+' skipped)':'';
   document.getElementById('ex-count').textContent=doneCount+' / '+eligible+' exercises'+skipLabel;
+  document.getElementById('stat-today').textContent=eligible>0?(Math.round(doneCount/eligible*100)+'%'):'—';
 
   const btn=document.getElementById('done-btn');
   if(sess.done){btn.textContent='✓ Session completed!';btn.className='cbtn cbtn-outline';}
@@ -729,7 +758,20 @@ function resetAll(){
   sessions={};weights=[];notes='';dlogs={};
   sv('sess',sessions);sv('wts',weights);sv('notes',notes);sv('dlogs',dlogs);
   document.getElementById('confirm-box').classList.remove('open');
-  renderToday();renderLog();renderProgress();renderPlan();
+  // ── PRE-SET: Day 1 = 1 June 2026, already completed ──
+if(!ld('start')){
+  sv('start','2026-06-01');
+  startDate=new Date(2026,5,1); // June 1 local time
+}
+if(!ld('sess')){
+  const presetSess={'2026-06-01':{type:'A',done:true,exDone:[],exSkipped:[]}};
+  sv('sess',presetSess);
+  sessions=presetSess;
+} else {
+  sessions=ld('sess')||{};
+}
+
+renderToday();renderLog();renderProgress();renderPlan();
    // switch to today tab
   document.querySelector('[data-pg="today"]').click();
 }
@@ -891,6 +933,19 @@ function renderDlog(){
     const lines=txt.split('\n').filter(Boolean).map(l=>`<div class="dlog-txt">• ${l}</div>`).join('');
     return`<div class="dlog-row"><div class="dlog-date">${dateLabel}</div>${lines}</div>`;
   }).join('');
+}
+
+// ── PRE-SET: Day 1 = 1 June 2026, already completed ──
+if(!ld('start')){
+  sv('start','2026-06-01');
+  startDate=new Date(2026,5,1); // June 1 local time
+}
+if(!ld('sess')){
+  const presetSess={'2026-06-01':{type:'A',done:true,exDone:[],exSkipped:[]}};
+  sv('sess',presetSess);
+  sessions=presetSess;
+} else {
+  sessions=ld('sess')||{};
 }
 
 renderToday();renderLog();renderProgress();renderPlan();
